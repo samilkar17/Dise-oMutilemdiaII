@@ -1,22 +1,14 @@
-import React, { useEffect } from "react";
-import Registrar from "./pages/Registrar";
-import { Switch, Route } from "react-router-dom";
-import IniciarSesion from "./pages/IniciarSesion";
-import Principal from "./pages/Principal";
-import { useDispatch } from "react-redux";
+import React from "react";
+import Routes from "./routes/Routes";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
 
-function App() {
-  const dispatch = useDispatch();
-
+export default function App() {
   return (
     <>
-      <Switch>
-        <Route exact path="/" component={IniciarSesion} />
-        <Route path="/registrar" component={Registrar} />
-        <Route  path="/principal" render={() => <Principal />} />
-      </Switch>
+      <Provider store={store}>
+        <Routes />
+      </Provider>
     </>
   );
 }
-
-export default App;

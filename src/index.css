@@ -1,4 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
+@import url('https://cdn.syncfusion.com/ej2/material.css');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components{
+    .btn-y {
+        @apply font-body text-yellow-600 bg-yellow-400 
+        border-2 border-white 
+        rounded-2xl w-full  p-2 
+        brightness-125 hover:text-white 
+        hover:bg-yellow-600 transition 
+        duration-150 ease-in-out;
+      }
+    .btn-b{
+        @apply font-body text-blue-200 bg-blue-600 
+        border-2 border-white 
+        rounded-2xl w-full  p-2 
+        brightness-125 hover:text-white 
+        hover:bg-blue-800 transition 
+        duration-150 ease-in-out
+    }
+}
