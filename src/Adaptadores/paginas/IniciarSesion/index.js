@@ -2,8 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { login } from "../../feactures/user/userSlice";
-import { server } from "../../firebase/config";
+import { login } from "../../../Puertos/feactures/user/userSlice";
 import Boton from "../../componentes/Button";
 
 function IniciarSesion() {

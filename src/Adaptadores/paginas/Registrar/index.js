@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { Register } from "../../feactures/user/userSlice";
+import { Register } from "../../../Puertos/feactures/user/userSlice";
 import { useForm } from "react-hook-form";
 import Boton from "../../componentes/Button";
 

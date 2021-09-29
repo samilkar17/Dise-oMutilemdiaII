@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { XIcon } from "@heroicons/react/outline";
-import { logoutSuccess, selectUser } from "../../feactures/user/userSlice";
+import { logoutSuccess, selectUser } from "../../../Puertos/feactures/user/userSlice";
 import { useDispatch } from "react-redux";
-import { auth, db, server } from "../../firebase/config";
+import { auth, db } from "../../../Puertos/firebase/config";
 import { useSelector } from "react-redux";
 import Perro from "../../componentes/Perro";
 import Boton from "../../componentes/Button";
 
-import { resetActivitySuccess } from "../../feactures/activity/activitySlice";
+import { resetActivitySuccess } from "../../../Puertos/feactures/activity/activitySlice";
 
 export default function Principal() {
   const dispatch = useDispatch();

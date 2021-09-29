@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
 import { useSelector } from "react-redux";
-import { selectUser } from "../../feactures/user/userSlice";
-import { db } from "../../firebase/config";
+import { selectUser } from "../../../Puertos/feactures/user/userSlice";
+import { db } from "../../../Puertos/firebase/config";
 
 
 export default function InfoUsuario() {

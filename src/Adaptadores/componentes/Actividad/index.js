@@ -1,14 +1,14 @@
 import React, { forwardRef } from "react";
 import { TrashIcon, CheckIcon } from "@heroicons/react/solid";
 import { useSelector } from "react-redux";
-import { selectUser } from "../../feactures/user/userSlice";
+import { selectUser } from "../../../Puertos/feactures/user/userSlice";
 import { useDispatch } from "react-redux";
 import {
   completedActivity,
   deleteActivity,
   completeActivitySuccess,
   removeActivitySuccess
-} from "../../feactures/activity/activitySlice";
+} from "../../../Puertos/feactures/activity/activitySlice";
 
 const Actividad = forwardRef(
   ({ doc, title, category, color, completed, tFinal, tStart }, ref) => {

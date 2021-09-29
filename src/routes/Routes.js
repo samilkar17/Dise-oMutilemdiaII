@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
-import { loginSuccess, logoutSuccess } from "../feactures/user/userSlice";
-import { auth } from "../firebase/config";
-import IniciarSesion from "../paginas/IniciarSesion";
-import Planificador from "../paginas/Planificador";
-import Principal from "../paginas/Principal";
-import Registrar from "../paginas/Registrar";
+import { loginSuccess, logoutSuccess } from '../Puertos/feactures/user/userSlice'
+import { auth } from "../Puertos/firebase/config";
+import IniciarSesion from "../Adaptadores/paginas/IniciarSesion";
+import Planificador from "../Adaptadores/paginas/Planificador";
+import Principal from "../Adaptadores/paginas/Principal";
+import Registrar from "../Adaptadores/paginas/Registrar";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 

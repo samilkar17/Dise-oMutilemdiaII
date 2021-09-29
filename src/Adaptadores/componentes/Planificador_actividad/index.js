@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectUser } from "../../feactures/user/userSlice";
+import { selectUser } from "../../../Puertos/feactures/user/userSlice";
 import { useDispatch } from "react-redux";
-import { addActivity, addActivitySuccess } from "../../feactures/activity/activitySlice";
+import { addActivity, addActivitySuccess } from "../../../Puertos/feactures/activity/activitySlice";
 import  { Toaster } from "react-hot-toast";
 import Boton from "../Button";
 import Input from "../Input";

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { selectUser } from "../../feactures/user/userSlice";
+import { selectUser } from "../../../Puertos/feactures/user/userSlice";
 import { size, map } from "lodash";
 import Actividad from "../Actividad";
 import FlipMove from "react-flip-move";
@@ -8,8 +8,8 @@ import { useDispatch } from "react-redux";
 import {
   resetActivitySuccess,
   setActivitySucces,
-} from "../../feactures/activity/activitySlice";
-import { auth, db } from "../../firebase/config";
+} from "../../../Puertos/feactures/activity/activitySlice";
+import { auth, db } from "../../../Puertos/firebase/config";
 
 export default function ActividadAgendada() {
   const [activities, setActivities] = useState([]);
