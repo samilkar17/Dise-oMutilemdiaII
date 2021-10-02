@@ -41,7 +41,7 @@ export const selectActivity = (state) => state.activity.activity;
 
 export default activitySlice.reducer;
 
-export const addActivity = async ({
+export const addActivity = ({
   user,
   activity,
   tStart,
@@ -49,10 +49,10 @@ export const addActivity = async ({
   category,
   color,
 }) => {
-  try {
+  return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
-        const collection = db.collection("actividades de " + user.user);
+        const collection = db.collection(`actividades de ${user.user}`);
         collection.get().then((snapshot) => {
           const exist = snapshot.docs.find((doc) => {
             if (
@@ -75,42 +75,41 @@ export const addActivity = async ({
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
               })
               .then(() => {
-                toast("Nueva actividad programada", { icon: "👍🏾👍🏾" });
+                resolve(toast("Nueva actividad programada", { icon: "👍🏾👍🏾" }));
               })
               .catch((e) => {
-                console.log(e);
+                reject(toast(`${e}`, { icon: "❌❌" }));
               });
           }
         });
       }
     });
-  } catch (error) {
-    console.log(error);
-  }
+  });
 };
 
-export const deleteActivity = async ({ user, doc }) => {
-  try {
+export const deleteActivity = ({ user, doc }) => {
+  return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
-        db.collection("actividades de " + user.user)
+        db.collection(`actividades de ${user.user}`)
           .doc(doc)
           .delete()
           .then(() => {
-            toast("Actividad eliminada", { icon: "❌❌" });
+            resolve(toast("Actividad eliminada", { icon: "❌❌" }));
+          })
+          .catch((e) => {
+            reject(toast(`${e}`, { icon: "❌❌" }));
           });
       }
     });
-  } catch (error) {
-    console.log(error);
-  }
+  });
 };
 
-export const completedActivity = async ({ user, doc, completed }) => {
-  try {
+export const completedActivity = ({ user, doc, completed }) => {
+  return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
-        db.collection("actividades de " + user.user)
+        db.collection(`actividades de ${user.user}`)
           .doc(doc)
           .update({
             completed: !completed,
@@ -121,12 +120,11 @@ export const completedActivity = async ({ user, doc, completed }) => {
             } else {
               toast("Actividad completada", { icon: "✔✔" });
             }
-          });
+            resolve()
+          }).catch((e)=>{
+            reject(toast(`${e}`, { icon: "❌❌" }))
+          })
       }
     });
-  } catch (error) {
-    console.log(error);
-  }
+  });
 };
-
-

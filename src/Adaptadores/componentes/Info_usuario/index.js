@@ -30,10 +30,10 @@ export default function InfoUsuario() {
   return (
     <>
       <div className="flex flex-col  items-center space-y-8">
-        <h1 className="text-white font-body text-xl text-center">Información sobre el Usuario</h1>
+        <h1 className="text-blue-800 font-body text-xl text-center">Información sobre el Usuario</h1>
         <div className="flex bg-white w-44 h-44 rounded-2xl shadow-xl ">
           <div className="flex  items-end mx-auto">
-            <h1 className="text-blue-500 font-body p-2 capitalize">
+            <h1 className="text-blue-800 font-body p-2 capitalize">
               {name} {lastName}
             </h1>
           </div>

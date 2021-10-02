@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import toast from "react-hot-toast";
 import { auth, db } from "../../firebase/config";
 const initialState = {
   user: null,
@@ -34,49 +34,61 @@ export default userSlice.reducer;
 
 export const Register =
   ({ name, lastName, email, password }) =>
-  async (dispatch) => {
-    try {
-      auth.createUserWithEmailAndPassword(email, password).then((userAuth) => {
-        db.collection("user")
-          .doc(userAuth.user.uid)
-          .set({
-            email: userAuth.user.email,
-            uid: userAuth.user.uid,
-            displayName: name,
-            lastName,
-          })
-          .then(() => {
-            dispatch(
-              registerSuccess({
-                email: userAuth.user.email,
-                uid: userAuth.user.uid,
-                displayName: name,
-                lastName,
-              })
-            );
-          });
-      });
-    } catch (error) {
-      alert(error);
-    }
+  (dispatch) => {
+    return new Promise((resolve, reject) => {
+      auth
+        .createUserWithEmailAndPassword(email, password)
+        .then((userAuth) => {
+          db.collection("user")
+            .doc(userAuth.user.uid)
+            .set({
+              email: userAuth.user.email,
+              uid: userAuth.user.uid,
+              displayName: name,
+              lastName,
+            })
+            .then(() => {
+              dispatch(
+                registerSuccess({
+                  email: userAuth.user.email,
+                  uid: userAuth.user.uid,
+                  displayName: name,
+                  lastName,
+                })
+              );
+              resolve();
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+          reject(toast('El correo electrónico ya existe', { icon: "❌❌" }));
+        });
+    });
   };
 
 export const login =
   ({ email, password }) =>
-  async (dispatch) => {
-    try {
-      auth.signInWithEmailAndPassword(email, password).then((userAuth) => {
-        if (userAuth.user.emailVerified) {
-          dispatch(
-            loginSuccess({
-              email: userAuth.email,
-              uid: userAuth.user.uid,
-              displayName: userAuth.user.displayName,
-            })
+  (dispatch) => {
+    return new Promise((resolve, reject) => {
+      auth
+        .signInWithEmailAndPassword(email, password)
+        .then((userAuth) => {
+          if (userAuth.user.emailVerified) {
+            dispatch(
+              loginSuccess({
+                email: userAuth.user.email,
+                uid: userAuth.user.uid,
+                displayName: userAuth.user.displayName,
+              })
+            );
+            resolve();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          reject(
+            toast(`correo electrónico o contraseña invalidos`, { icon: "❌❌" })
           );
-        }
-      });
-    } catch (error) {
-      alert(error);
-    }
+        });
+    });
   };

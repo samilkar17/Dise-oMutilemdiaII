@@ -1,0 +1,36 @@
+.button {
+  font-family: "RocknRoll One";
+  background-repeat: no-repeat;
+  background-size: contain;
+  color: #a43e05;
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.button > p:hover {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.button > p {
+  white-space: nowrap;
+  font-size: 1.3em;
+  text-align: center;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.button.secondary {
+  color: #050ca4;
+}

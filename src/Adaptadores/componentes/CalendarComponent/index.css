@@ -1,0 +1,41 @@
+.hoursContainer>div,
+.calendarTable tr{
+    height: 1.2em;
+}
+
+.hoursContainer>div>p{
+    color: white;
+    font-weight: bold;
+    margin-top: -.3em;
+    margin-right: 0.5em;
+    font-size: 0.8em;
+    margin-left: 2em;
+}
+
+.calendarTable thead th{
+    text-align: center;
+    color: white;
+}
+
+.calendarTable tr>td:not(:last-child){
+    border-right: solid thin #efefef;
+}
+
+.calendarTable tbody>tr:nth-child(2n){
+    border-bottom: solid thin #efefef;
+}
+.eventContainer{
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calendarStar{
+    height: 100%;
+    max-height: 3.5vw;
+}

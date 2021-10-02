@@ -1,12 +1,26 @@
-import React from 'react'
+import React from "react";
+import Dialog from "../Dialog";
+import Item from "../Item";
 
-export default function Perro({titulo}) {
-    return (
-        <div className="flex justify-center items-center space-x-8 ">
-            <img className=" w-1/4 h-1/4" src="/assets/perroComponent.png" alt="" />
-            <div className="bg-gradient-to-r from-blue-600  to-blue-800 w-2/5 rounded-lg border-4 border-blue-100">
-                <h1 className="text-white text-center font-body p-6">{titulo}</h1>
-            </div>
-        </div>
-    )
+export default function Perro({
+  top,
+  left,
+  right,
+  bottom,
+  inverse,
+  text,
+  arrow,
+  className,
+}) {
+  return (
+    <Item {...{ top, left, right, bottom }}>
+      <div className={`${className} flex-nowrap items-center`}>
+        <div>{text && <Dialog text={text} arrow={arrow} />}</div>
+        <img
+          src="/assets/characteres/Perro.svg"
+          style={{ transform: inverse ? "scaleX(-1)" : "", height: "11vw" }}
+        />
+      </div>
+    </Item>
+  );
 }

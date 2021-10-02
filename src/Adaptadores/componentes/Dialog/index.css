@@ -1,0 +1,67 @@
+.dialog{
+    font-family: 'RocknRoll One';
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1em;
+    letter-spacing: 0.01em;
+    text-align: left;
+    color: white;
+    position: relative;
+    background: linear-gradient(231.78deg, #4377A7 13.3%, #305895 93.63%);
+    border-radius: 15px;
+    border: solid 3px #6BEEF6;
+    max-width: 20vw;
+}
+.dialog::before{
+    content: '';
+    clip-path: polygon(0 0, 0% 100%, 100% 50%);
+    background: #6BEEF6;
+    position: absolute;
+    right: -1em;
+    top: calc(50% - 0.75em);
+    height: 1.5em;
+    width: 1em;
+}
+.dialog::after{
+    content: '';
+    clip-path: polygon(0 0, 0% 100%, 100% 50%);
+    background: linear-gradient(231.78deg, #305895 13.3%, #4377A7 93.63%);
+    position: absolute;
+    right: -0.8em;
+    top: calc(50% - 0.75em);
+    height: 1.5em;
+    width: 1em;
+}
+
+.dialog>p{
+    padding: 1em;
+    font-size: 1em;
+}
+.dialog.right{
+    margin-right: 2em;
+}
+.dialog.bottom{
+    margin-bottom: 2em;
+}
+.dialog.left{
+    margin-left: 2em;
+}
+.dialog.left > p{
+    padding-left: 1.2em;
+}
+
+.dialog.right > p{
+    padding-right: 1.2em;
+}
+
+.dialog.bottom > p{
+    padding-bottom: 1.2em;
+}
+
+
+@media screen and (max-width: 768px) {
+   .dialog>p{
+       font-size: 0.6em;
+       line-height: 1em;
+   }
+}

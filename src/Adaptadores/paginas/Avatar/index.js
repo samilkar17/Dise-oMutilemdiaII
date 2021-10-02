@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { XIcon } from "@heroicons/react/outline";
-import { logoutSuccess, selectUser } from "../../../Puertos/feactures/user/userSlice";
+import {
+  logoutSuccess,
+  selectUser,
+} from "../../../Puertos/feactures/user/userSlice";
 import { useDispatch } from "react-redux";
 import { auth, db } from "../../../Puertos/firebase/config";
 import { useSelector } from "react-redux";
 import Perro from "../../componentes/Perro";
-import Boton from "../../componentes/Button";
-
 import { resetActivitySuccess } from "../../../Puertos/feactures/activity/activitySlice";
+import Button from "../../componentes/Button";
 
-export default function Principal() {
+export default function Avatar() {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const [name, setName] = useState("");
@@ -28,24 +30,17 @@ export default function Principal() {
       const data = await query.docs[0].data();
       setName(data.displayName);
       setLastName(data.lastName);
-    } catch (error) {
-      alert(error);
-    }
+    } catch (error) {}
   };
   const handleSignOut = () => {
     dispatch(logoutSuccess());
     dispatch(resetActivitySuccess());
     auth.signOut();
   };
-  // const handleGender = (e) => {
-  //   e.preventDefault();
-  //   dispatch(Gender({ user, gender }));
-  //   history.push("/planificador");
-  // };
 
   return (
     <div className="bg-blue-400 w-screen h-screen">
-      <div className="flex justify-end items-center self-start p-6 space-x-4 ">
+      <div className="flex justify-end items-center self-start p-6 space-x-4 my-16">
         <h1 className="text-white text-2xl font-body capitalize">
           Bienvenido{" "}
           <strong className="text-yellow-300">
@@ -89,10 +84,13 @@ export default function Principal() {
           </label>
         </div>
         <div className="flex items-center m-6">
-          <Perro titulo="Personaliza tu proyección virtual para empezar con la experiencia." />
+          <Perro
+            text="Personaliza tu proyección virtual para empezar con la experiencia."
+            inverse={true}
+          />
           <div className="ml-auto p-6 w-44">
-            <Link to="/planificador">
-              <Boton titulo="Listo" color="btn-y" />
+            <Link to="/historia">
+              <Button text="Listo" color="btn-y" />
             </Link>
           </div>
         </div>
