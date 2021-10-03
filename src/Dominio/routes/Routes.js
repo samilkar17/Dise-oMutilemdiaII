@@ -24,6 +24,7 @@ import Logro2 from "../../Adaptadores/paginas/Logro2";
 function Routes() {
   const dispatch = useDispatch();
   useEffect(() => {
+    
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
         dispatch(
@@ -33,12 +34,13 @@ function Routes() {
             displayName: userAuth.displayName,
           })
         );
+        console.log(userAuth)
       } else {
         dispatch(logoutSuccess());
       }
     });
     return unsubscribe;
-  }, []);
+  }, [dispatch]);
   return (
     <Router>
       <Switch>

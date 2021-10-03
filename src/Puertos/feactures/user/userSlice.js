@@ -3,7 +3,6 @@ import toast from "react-hot-toast";
 import { auth, db } from "../../firebase/config";
 const initialState = {
   user: null,
-  group: "",
 };
 
 export const userSlice = createSlice({
@@ -19,13 +18,10 @@ export const userSlice = createSlice({
     logoutSuccess: (state) => {
       state.user = null;
     },
-    isGroup: (state, action) => {
-      state.group = action.payload;
-    },
   },
 });
 
-export const { loginSuccess, logoutSuccess, registerSuccess, isGroup } =
+export const { loginSuccess, logoutSuccess, registerSuccess } =
   userSlice.actions;
 
 export const selectUser = (state) => state.user.user;
@@ -39,13 +35,18 @@ export const Register =
       auth
         .createUserWithEmailAndPassword(email, password)
         .then((userAuth) => {
-          db.collection("user")
-            .doc(userAuth.user.uid)
-            .set({
-              email: userAuth.user.email,
-              uid: userAuth.user.uid,
+          userAuth.user
+            .updateProfile({
               displayName: name,
-              lastName,
+              lastName: lastName,
+            })
+            .then(() => {
+              db.collection("user").doc(userAuth.user.uid).set({
+                email: userAuth.user.email,
+                uid: userAuth.user.uid,
+                displayName: name,
+                lastName,
+              });
             })
             .then(() => {
               dispatch(
@@ -61,7 +62,7 @@ export const Register =
         })
         .catch((error) => {
           console.log(error);
-          reject(toast('El correo electrónico ya existe', { icon: "❌❌" }));
+          reject(toast("El correo electrónico ya existe", { icon: "❌❌" }));
         });
     });
   };
