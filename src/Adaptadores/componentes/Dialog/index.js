@@ -1,7 +1,7 @@
 import React from "react";
 import "./index.css";
 export default function Dialog({ arrow, text }) {
-  arrow = arrow ?? "left";
+  arrow = arrow ?? "right";
   return <div className={`dialog ${arrow}`}>
       <p>
           {text}

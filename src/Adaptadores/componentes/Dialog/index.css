@@ -12,7 +12,7 @@
     border: solid 3px #6BEEF6;
     max-width: 20vw;
 }
-.dialog::before{
+.dialog.right::before{
     content: '';
     clip-path: polygon(0 0, 0% 100%, 100% 50%);
     background: #6BEEF6;
@@ -22,13 +22,34 @@
     height: 1.5em;
     width: 1em;
 }
-.dialog::after{
+.dialog.right::after{
     content: '';
     clip-path: polygon(0 0, 0% 100%, 100% 50%);
     background: linear-gradient(231.78deg, #305895 13.3%, #4377A7 93.63%);
     position: absolute;
     right: -0.8em;
     top: calc(50% - 0.75em);
+    height: 1.5em;
+    width: 1em;
+}
+
+.dialog.bottom::before{
+    content: '';
+    background: #6BEEF6;
+    position: absolute;
+    clip-path: polygon(0 0, 50% 100%, 100% 0);
+    left: calc(50% - 0.75em);
+    bottom: -1.5em;
+    height: 1.5em;
+    width: 1em;
+}
+.dialog.bottom::after{
+    content: '';
+    background: linear-gradient(231.78deg, #305895 13.3%, #4377A7 93.63%);
+    position: absolute;
+    clip-path: polygon(0 0, 50% 100%, 100% 0);
+    left: calc(50% - 0.75em);
+    bottom: -1.4em;
     height: 1.5em;
     width: 1em;
 }

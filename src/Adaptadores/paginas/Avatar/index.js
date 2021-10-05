@@ -73,6 +73,7 @@ export default function Avatar() {
           <Perro
             text="Personaliza tu proyección virtual para empezar con la experiencia."
             inverse={true}
+            arrow='bottom'
           />
           <div className="ml-auto p-6 w-44">
             <Link to="/historia">
