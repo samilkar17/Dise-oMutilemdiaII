@@ -8,10 +8,13 @@ export default function Item({
   height,
   width,
   children,
+  className,
+  onClick
 }) {
   return (
     <div
-      className={!top && !left && !right && !bottom ? "relative" : "absolute"}
+      className={`${!top && !left && !right && !bottom ? "relative" : "absolute"} ${className}`}
+      onClick={onClick}
       style={{
         left: `${left}vw`,
         right: `${right}vw`,

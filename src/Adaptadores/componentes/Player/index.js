@@ -6,6 +6,6 @@ import './index.css'
 export default function Player({ top, left, right, bottom }) {
     const setGender = useSelector(selectgender)
     return <Item {...{top, left, right, bottom}}>
-    <img src={`/assets/characteres/${setGender}_Perfil.svg`} className="imagePlayer" />
+    <img src={`/assets/characteres/${setGender??'hombre'}_Perfil.svg`} className="imagePlayer" />
 </Item>
 }

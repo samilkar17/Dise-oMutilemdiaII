@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 554">
+    <path d="M261.32,482.69c110.64,0,200.33-89.61,200.33-200.14S372,82.4,261.32,82.4,61,172,61,282.55,150.69,482.69,261.32,482.69Z" style="fill:#7ebeff" fill-opacity="0.6" >
+        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 270 264" to="360 270 264" dur="3s" repeatCount="indefinite" />
+    </path>
+    <path d="M261.32,482.69c110.64,0,200.33-89.61,200.33-200.14S372,82.4,261.32,82.4,61,172,61,282.55,150.69,482.69,261.32,482.69Z" style="fill:#7ebeff" fill-opacity="0.6" >
+        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 270 264" to="360 270 264" dur="5s" repeatCount="indefinite" />
+    </path>
+    <path d="M328.68,457.94C439.31,457.94,529,368.33,529,257.79S439.31,57.65,328.68,57.65,128.35,147.26,128.35,257.79,218,457.94,328.68,457.94Z" style="fill:#3cd6ff" fill-opacity="0.6" >
+        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 270 264" to="360 270 264" dur="2s" repeatCount="indefinite" />
+    </path>
+    <path d="M328.68,496.35C439.31,496.35,529,406.74,529,296.2S439.31,96.06,328.68,96.06,128.35,185.67,128.35,296.2,218,496.35,328.68,496.35Z" style="fill:#3fdcff" fill-opacity="0.6" >
+        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 270 264" to="360 270 264" dur="3s" repeatCount="indefinite" />
+    </path>
+    <rect width="590" height="554" style="fill:none" />
+</svg>

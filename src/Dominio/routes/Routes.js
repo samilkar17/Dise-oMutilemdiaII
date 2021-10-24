@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import {
   loginSuccess,
   logoutSuccess,
@@ -20,6 +20,7 @@ import Logro from "../../Adaptadores/paginas/Logro";
 import OrdenarCuarto from "../../Adaptadores/paginas/Ordenarcuarto";
 import CuartoOrdenado from "../../Adaptadores/paginas/CuartoOrdenado";
 import Logro2 from "../../Adaptadores/paginas/Logro2";
+import Respiracion from "../../Adaptadores/paginas/Respiracion";
 
 function Routes() {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ function Routes() {
         <PublicRoute exact path="/" component={IniciarSesion} />
         <PublicRoute exact path="/registrar" component={Registrar} />
         <PrivateRoute exact path="/avatar" component={Avatar} />
+        <PrivateRoute exact path="/respiracion" component={Respiracion} />
         <PrivateRoute exact path="/historia" component={Historia} />
         <PrivateRoute exact path="/menu" component={Menuprincipal} />
         <PrivateRoute exact path="/planificador" component={Planificador} />
