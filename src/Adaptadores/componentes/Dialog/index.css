@@ -12,7 +12,7 @@
     border: solid 3px #6BEEF6;
     max-width: 20vw;
 }
-.dialog.right::before{
+.dialog.right::before, .dialog.left::before{
     content: '';
     clip-path: polygon(0 0, 0% 100%, 100% 50%);
     background: #6BEEF6;
@@ -22,7 +22,7 @@
     height: 1.5em;
     width: 1em;
 }
-.dialog.right::after{
+.dialog.right::after, .dialog.left::after{
     content: '';
     clip-path: polygon(0 0, 0% 100%, 100% 50%);
     background: linear-gradient(231.78deg, #305895 13.3%, #4377A7 93.63%);
@@ -31,6 +31,21 @@
     top: calc(50% - 0.75em);
     height: 1.5em;
     width: 1em;
+}
+.dialog.left::before{
+    content: '';
+    clip-path: polygon(0 0, 0% 100%, 100% 50%);
+    background: #6BEEF6;
+    position: absolute;
+    left: -1em;
+    top: calc(50% - 0.75em);
+    height: 1.5em;
+    transform: scaleX(-1);
+    width: 1em;
+}
+.dialog.left::after{
+    left: -0.8em;
+    transform: scaleX(-1);
 }
 
 .dialog.bottom::before{

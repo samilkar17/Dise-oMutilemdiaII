@@ -1,0 +1,14 @@
+.imageSearch {
+    padding: 0.2em 0.5em;
+    background-color: #549CDE;
+    border-radius: 5px;
+    border: solid 3px #71B5F3;
+    color: white;
+    font-size: 1.3em;
+}
+
+.imageSearch.found {
+    background-color: #29AB87;
+    border: solid 3px #00AB66;
+    text-decoration: line-through;
+}

@@ -21,6 +21,7 @@ import OrdenarCuarto from "../../Adaptadores/paginas/Ordenarcuarto";
 import CuartoOrdenado from "../../Adaptadores/paginas/CuartoOrdenado";
 import Logro2 from "../../Adaptadores/paginas/Logro2";
 import Respiracion from "../../Adaptadores/paginas/Respiracion";
+import Puzzle from "../../Adaptadores/paginas/Puzzle";
 
 function Routes() {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ function Routes() {
       <Switch>
         <PublicRoute exact path="/" component={IniciarSesion} />
         <PublicRoute exact path="/registrar" component={Registrar} />
+        <Route exact path="/puzzle" component={Puzzle} />
         <PrivateRoute exact path="/avatar" component={Avatar} />
         <PrivateRoute exact path="/respiracion" component={Respiracion} />
         <PrivateRoute exact path="/historia" component={Historia} />

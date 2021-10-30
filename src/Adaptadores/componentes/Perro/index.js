@@ -14,11 +14,11 @@ export default function Perro({
 }) {
   return (
     <Item {...{ top, left, right, bottom }}>
-      <div className={`${className} flex-nowrap items-center`}>
+      <div className={`${className} ${arrow == 'left' || arrow == 'right' ? 'flex':''} ${arrow == 'left' ? 'flex-row-reverse':''} flex-nowrap items-center`}>
         <div style={{marginLeft: arrow == 'bottom' ? '-50%':''}}>{text && <Dialog text={text} arrow={arrow} />}</div>
         <img
           src="/assets/characteres/Perro.svg"
-          style={{ transform: inverse ? "scaleX(-1)" : "", height: "11vw" }}
+          style={{ transform: inverse || arrow =='left' ? "scaleX(-1)" : "", height: "11vw" }}
         />
       </div>
     </Item>
