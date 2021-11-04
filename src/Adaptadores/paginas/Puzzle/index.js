@@ -5,102 +5,102 @@ import './index.css';
 import Item from "../../componentes/Item";
 import { useHistory } from "react-router";
 
+const searchImagesDefault = [
+    {
+        id: 'light',
+        displayName: 'Lámpara',
+        found: false,
+        url: '/assets/puzzle/lampara.svg',
+        position: { left: 84, top: 39 },
+        sizes: { width: '4vw' }
+    },
+    {
+        id: 'compass',
+        displayName: 'Brújula',
+        found: false,
+        url: '/assets/puzzle/brujula.svg',
+        position: { left: 17, top: 44 },
+        sizes: { width: '4vw' }
+    },
+    {
+        id: 'map',
+        displayName: 'Mapa',
+        found: false,
+        url: '/assets/puzzle/mapa.svg',
+        position: { left: 65, top: 36 },
+        sizes: { width: '6vw' }
+    },
+    {
+        id: 'bag',
+        displayName: 'Morral',
+        found: false,
+        url: '/assets/puzzle/mochila.svg',
+        position: { left: 6, top: 32 },
+        sizes: { width: '9vw' }
+    },
+    {
+        id: 'cauldron',
+        displayName: 'Caldero',
+        found: false,
+        searching: false,
+        url: '/assets/puzzle/caldero.svg',
+        position: { left: 53.5, top: 27 },
+        sizes: { width: '15vw' }
+    },
+    {
+        id: 'guitar',
+        displayName: 'Guitarra',
+        found: false,
+        url: '/assets/puzzle/guitarra.svg',
+        position: { left: 70, top: 31 },
+        sizes: { width: '10vw' }
+    },
+    {
+        id: 'fire',
+        displayName: 'Leña',
+        found: false,
+        url: '/assets/puzzle/lena.svg',
+        position: { left: 25, top: 34 },
+        sizes: { width: '9vw' }
+    },
+    {
+        id: 'chair',
+        displayName: 'Silla',
+        found: false,
+        url: '/assets/puzzle/silla.svg',
+        position: { left: 37, top: 29.5 },
+        sizes: { width: '16vw' }
+    },
+    {
+        id: 'thermos',
+        displayName: 'Termo',
+        found: false,
+        url: '/assets/puzzle/termo.svg',
+        position: { left: 33, top: 41.2 },
+        sizes: { width: '4.55svw' }
+    },
+];
+const maxTimeSeconds = 10;
 function Puzzle() {
     let dragginItem = null;
     const history = useHistory();
-    const [searchImages, setSearchImages] = useState([
-        {
-            id: 'light',
-            displayName: 'Lámpara',
-            found: false,
-            searching: true,
-            url: '/assets/pluzzle/lampara.svg',
-            position: { left: 10, top: 10 },
-            sizes: {height: '3em', width: '3em'}
-        },
-        {
-            id: 'compass',
-            displayName: 'Brújula',
-            found: false,
-            searching: true,
-            url: '/assets/pluzzle/brujula.svg',
-            position: { left: 20, top: 10 },
-            sizes: {height: '3em', width: '3em'}
-        },
-        {
-            id: 'map',
-            displayName: 'Mapa',
-            found: false,
-            searching: true,
-            url: '/assets/pluzzle/mapa.svg',
-            position: { left: 30, top: 10 },
-            sizes: {height: '3em', width: '3em'}
-        },
-        {
-            id: 'bag',
-            displayName: 'Morral',
-            found: false,
-            searching: true,
-            url: '/assets/pluzzle/mochila.svg',
-            position: { left: 40, top: 10 },
-            sizes: {height: '3em', width: '3em'}
-        },
-        {
-            id: 'cauldron',
-            displayName: 'Caldero',
-            found: false,
-            searching: false,
-            url: '/assets/pluzzle/caldero.svg',
-            position: { left: 10, top: 40 },
-            sizes: {height: '3em', width: '3em'}
-        },
-        {
-            id: 'guitar',
-            displayName: 'Guitarra',
-            found: false,
-            searching: false,
-            url: '/assets/pluzzle/guitarra.svg',
-            position: { left: 40, top: 20 },
-            sizes: {height: '3em', width: '3em'}
-        },
-        {
-            id: 'fire',
-            displayName: 'Leña',
-            found: false,
-            searching: false,
-            url: '/assets/pluzzle/lena.svg',
-            position: { left: 40, top: 30 },
-            sizes: {height: '3em', width: '3em'}
-        },
-        {
-            id: 'chair',
-            displayName: 'Silla',
-            found: false,
-            searching: false,
-            url: '/assets/pluzzle/silla.svg',
-            position: { left: 30, top: 30 },
-            sizes: {height: '3em', width: '3em'}
-        },
-        {
-            id: 'thermos',
-            displayName: 'Termo',
-            found: false,
-            searching: false,
-            url: '/assets/pluzzle/termo.svg',
-            position: { left: 20, top: 30 },
-            sizes: {height: '3em', width: '3em'}
-        },
-    ]);
+    const [remainingSeconds, setremainingSeconds] = useState(maxTimeSeconds);
+    const [isPlaying, setisPlaying] = useState(false);
+    const [hasLost, sethasLost] = useState(false)
+    const [searchImages, setSearchImages] = useState(JSON.parse(JSON.stringify(searchImagesDefault)));
     //mostrar banner
-    const [visibleBanner, setVisibleBanner] = useState(false);
+    const [visibleBanner, setVisibleBanner] = useState(true);
     const _initGame = () => {
+        setremainingSeconds(maxTimeSeconds);
+        setSearchImages(JSON.parse(JSON.stringify(searchImagesDefault)));
+        setisPlaying(true);
         //hideBanner
         setVisibleBanner(false);
     }
 
     //draggable events
     const _endGame = () => {
-        history.push('/logro');        
+        history.push('/logro');
     }
     const _onDrop = (e, image) => {
         e.preventDefault();
@@ -110,7 +110,7 @@ function Puzzle() {
             image.found = true;
             setSearchImages(copy);
             //check if end game
-            if (!copy.some((image)=>!image.found && image.searching)){
+            if (!copy.some((image) => !image.found)) {
                 _endGame();
             }
 
@@ -128,24 +128,46 @@ function Puzzle() {
         e.preventDefault();
     }
 
-    return <div className="app" style={{ backgroundImage: 'url(/assets/backgrounds/logro.png)' }}>
-        {searchImages.filter((image)=>!image.found).map((image) =>
-            <Item left={image.position.left} right={image.position.right} bottom={image.position.bottom} top={image.position.top}>
-                <img draggable="true" style={image.sizes} onDrag={(e) => _onDrag(e, image)} src={image.url} />
-            </Item>
-        )}
+    //listener for call next step
+    useEffect(() => {
+        if (isPlaying && remainingSeconds > 0) {
+            const timer = setTimeout(() => setremainingSeconds(remainingSeconds -1), 1000);
+            return () => clearTimeout(timer);
+        }else if(isPlaying){
+            //lost
+            setisPlaying(false);
+            sethasLost(true);
+            setVisibleBanner(true);
+        }
+    }, [isPlaying, remainingSeconds]);
 
 
-        {visibleBanner ? <Banner>
-            <Button right="5" bottom="5" onClick={_initGame} text="Continuar" />
-        </Banner> : <Item bottom="5" left="0" right="0">
-            <div className="flex justify-center w-full">
-                {searchImages.filter((image)=>image.searching).map((image) => <div onDrop={(e) => _onDrop(e, image)} onDragOver={_onDragover}
-                    className={`imageSearch mx-2 p-2 ${image.found ? 'found' : ''}`} key={image.id}>{image.displayName}</div>)}
+    return <div className="app" style={{ backgroundImage: 'url(/assets/backgrounds/puzzle.png)' }}>
+        <Item top="5" left="0" right="0" className="w-100 d-flex justify-content-center">
+            <div className="timer btn text-center">
+                {new Date(remainingSeconds * 1000).toISOString().substr(11, 8)}
             </div>
-        </Item>}
+        </Item>
+        {
+            searchImages.filter((image) => !image.found).map((image) =>
+                <Item left={image.position.left} right={image.position.right} bottom={image.position.bottom} top={image.position.top}>
+                    <img draggable="true" style={image.sizes} onDrag={(e) => _onDrag(e, image)} src={image.url} />
+                </Item>
+            )
+        }
 
-    </div>
+
+        {
+            visibleBanner ? <Banner initGame={_initGame} isLost={hasLost} />
+                : <Item bottom="5" left="0" right="0">
+                    <div className="flex justify-center w-full">
+                        {searchImages.filter((image) => !image.found).slice(0, 5).map((image) => <div onDrop={(e) => _onDrop(e, image)} onDragOver={_onDragover}
+                            className={`imageSearch mx-2 p-2 ${image.found ? 'found' : ''}`} key={image.id}>{image.displayName}</div>)}
+                    </div>
+                </Item>
+        }
+
+    </div >
 }
 
 export default Puzzle;
