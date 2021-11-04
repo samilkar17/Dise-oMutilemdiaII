@@ -79,7 +79,7 @@ function MenuPrincipal() {
         icon="/assets/icons/pluzzle.svg"
         color="#9C9C9C"
         outstanding={phase == 7}
-        newUrl={phase == 7 ? null : "/pluzzle"}
+        newUrl={phase == 7 ? null : "/puzzle"}
       />
       <Player bottom={2} left={5} />
       {phase < texts.length && (
