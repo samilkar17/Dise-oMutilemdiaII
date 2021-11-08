@@ -141,8 +141,8 @@ function Puzzle() {
     }, [isPlaying, remainingSeconds]);
 
 
-    return <div className="app" style={{ backgroundImage: 'url(/assets/backgrounds/puzzle.png)' }}>
-        <Item top="5" left="0" right="0" className="w-100 d-flex justify-content-center">
+    return <div className="app " style={{ backgroundImage: 'url(/assets/backgrounds/puzzle.png)' }}>
+        <Item top="5" left="0" right="0" className="w-1/5 mx-auto rounded-md text-white font-body m-4 p-6 text-xl bg-blue-500 flex justify-center  items-center">
             <div className="timer btn text-center">
                 {new Date(remainingSeconds * 1000).toISOString().substr(11, 8)}
             </div>

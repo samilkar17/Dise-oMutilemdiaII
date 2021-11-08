@@ -22,6 +22,7 @@ import CuartoOrdenado from "../../Adaptadores/paginas/CuartoOrdenado";
 import Logro2 from "../../Adaptadores/paginas/Logro2";
 import Respiracion from "../../Adaptadores/paginas/Respiracion";
 import Puzzle from "../../Adaptadores/paginas/Puzzle";
+import Consejos from "../../Adaptadores/paginas/Consejos";
 
 function Routes() {
   const dispatch = useDispatch();
@@ -60,6 +61,8 @@ function Routes() {
         <PrivateRoute exact path="/ordenarcuarto" component={OrdenarCuarto} />
         <PrivateRoute exact path="/cuartoOrdenado" component={CuartoOrdenado} />
         <PrivateRoute exact path="/logro2" component={Logro2} />
+        <PrivateRoute exact path="/consejos" component={Consejos} />
+
       </Switch>
     </Router>
   );

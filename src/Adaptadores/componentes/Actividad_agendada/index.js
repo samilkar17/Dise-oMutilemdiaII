@@ -66,6 +66,7 @@ export default function ActividadAgendada() {
                 tFinal,
                 tStart,
                 completed,
+                timestamp
               }) => (
                 <Actividad
                   key={DocumentId}
@@ -76,6 +77,7 @@ export default function ActividadAgendada() {
                   tFinal={tFinal}
                   tStart={tStart}
                   completed={completed}
+                  date={timestamp}
                 />
               )
             )

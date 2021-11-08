@@ -7,28 +7,36 @@ import {
   completedActivity,
   deleteActivity,
   completeActivitySuccess,
-  removeActivitySuccess
+  removeActivitySuccess,
 } from "../../../Puertos/feactures/activity/activitySlice";
+import moment from "moment";
+import 'moment/locale/es';
+moment.locale("es");
 
 const Actividad = forwardRef(
-  ({ doc, title, category, color, completed, tFinal, tStart }, ref) => {
+  ({ doc, title, category, color, completed, tFinal, tStart, date }, ref) => {
     const dispatch = useDispatch();
     const user = useSelector(selectUser);
-
+   
     return (
       <>
         <div
           ref={ref}
-          className="relative h-14 bg-white rounded-2xl shadow-md m-2 space-x-8"
+          className="relative h-20 bg-white rounded-2xl shadow-md  m-2 space-x-8"
         >
           <div
             className="absolute  
-            h-14 w-6 rounded-l-2xl"
+            h-20 w-6 rounded-l-2xl"
             style={{ backgroundColor: `${color}` }}
           ></div>
-          <div className="flex justify-center items-center m-2 sm:m-0">
-            <div className="flex-1 flex-col leading-none">
-              <p className="font-light  text-sm text-gray-400">{category}</p>
+          <div className="flex justify-center items-center m-2 sm:m-0 p-1">
+            <div className="flex-1 flex-col  leading-none space-y-2">
+              <p className="font-light  text-sm text-gray-400">
+                {moment(date.toDate()).calendar()}
+              </p>
+              <p className="font-light  text-sm text-gray-400">
+                Categoria: {category}
+              </p>
               <h1 className="font-semibold  text-blue-500 capitalize">
                 {title}
               </h1>
@@ -42,7 +50,11 @@ const Actividad = forwardRef(
             <div className="flex items-end ml-auto space-x-1 p-2">
               <CheckIcon
                 onClick={() =>
-                  dispatch(completeActivitySuccess(completedActivity({ user, doc, completed })))
+                  dispatch(
+                    completeActivitySuccess(
+                      completedActivity({ user, doc, completed })
+                    )
+                  )
                 }
                 className={
                   completed
@@ -51,7 +63,9 @@ const Actividad = forwardRef(
                 }
               />
               <TrashIcon
-                onClick={() => dispatch( removeActivitySuccess(deleteActivity({ user, doc })))}
+                onClick={() =>
+                  dispatch(removeActivitySuccess(deleteActivity({ user, doc })))
+                }
                 className="w-7 h-7 cursor-pointer text-gray-400 rounded-full hover:text-white p-1.5 hover:bg-red-500 transition ease-in duration-200"
               />
             </div>
