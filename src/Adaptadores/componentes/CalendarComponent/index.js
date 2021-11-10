@@ -28,7 +28,7 @@ const categories = [
   },
 ];
 //get day day of wee, getdate date of month
-function CalendarComponent({ events }) {
+function CalendarComponent({ events, currentDate }) {
   const getHours = () => {
     let initialTime = new Date(1, 1, 1, 5, 0, 0, 0);
     const hours = [];
@@ -40,7 +40,6 @@ function CalendarComponent({ events }) {
     return hours;
   };
   const calcDays = () => {
-    const currentDate = new Date();
     const date = currentDate.getDay();
     let firstDate = new Date();
     firstDate.setDate(currentDate.getDate() - date);
@@ -81,6 +80,7 @@ function CalendarComponent({ events }) {
         event.tStart.getMinutes() == hour.getMinutes()
     );
     if (filtred.length > 0) {
+      console.log(filtred);
       return (
         <div
           className="eventContainer absolute"
@@ -91,7 +91,7 @@ function CalendarComponent({ events }) {
         >
           <img
             className="calendarStar"
-            src={`/assets/icos/star-2${filtred[0].done ? "" : "-inactive"}.svg`}
+            src={`/assets/icons/star-2${filtred[0].completed ? "" : "-inactive"}.svg`}
           />
         </div>
       );

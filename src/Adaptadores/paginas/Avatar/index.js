@@ -117,11 +117,7 @@ export default function Avatar() {
                 },
               }}
             />
-            <Button
-              text="Listo"
-              color="btn-y"
-              onClick={() => dispatch(setGender(genero))}
-            />
+            <Button bottom="5" right="5" text="Listo" color="btn-y" onClick={()=>{dispatch(setGender(genero)); history.push('/historia')}} />
           </div>
         </div>
       </form>

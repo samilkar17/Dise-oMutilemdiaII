@@ -55,28 +55,36 @@ export default function Calendario() {
     firstDate.setDate(firstDate.getDate() - selectedDate.getDay());
     const endDate = new Date(firstDate.getTime());
     endDate.setDate(endDate.getDate() + 7);
+    setCurrentDate(selectedDate);
 
     //llama back
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
-        db.collection("actividades de " + user.user)
-          .where("tStart", ">=", firstDate.getTime())
-          .where("tStart", "<", endDate.getTime())
+        db.collection("actividades")
+          .where("user", "==", user.user)
+          .where("tStart", ">=", firstDate)
           .onSnapshot((snapshot) => {
+            console.log('snapshot');
+            console.log(snapshot.docs.map((doc) => ({
+              ...doc.data(),
+              DocumentId: doc.id,
+            })));
+            let activities = snapshot.docs.map((doc) => ({
+              ...doc.data(),
+              DocumentId: doc.id,
+            }));
+            activities.forEach(activity => {
+              activity.tStart = activity.tStart.toDate();
+              activity.tFinal = activity.tFinal.toDate();
+            });
             dispatch(
               setActivitySucces(
-                setActivities(
-                  snapshot.docs.map((doc) => ({
-                    ...doc.data(),
-                    DocumentId: doc.id,
-                  }))
-                )
+                setActivities(activities)
               )
             );
           });
       }
     });
-    setCurrentDate(selectedDate);
   };
   return (
     <div className="flex justify-center  bg-blue-400 w-screen h-screen mt-12 ">
@@ -96,15 +104,17 @@ export default function Calendario() {
           <img
             className="absolute bg-cover h-full w-full z-0 "
             src="/assets/backgrounds/bg-calendar.svg"
-           
+
           />
           <div className="flex justify-center items-center z-10 mt-12">
-          
+
             <div className="w-9/12 px-3 flex justify-center mb-2 z-10">
               <input
                 type="date"
-                onChange={(e) => changeDate(new Date(e.target.value))}
-                value={currentDate}
+                onChange={(e) => {
+                  changeDate(new Date(e.target.value))
+                }}
+                value={currentDate.toISOString().substr(0, 10)}
                 style={{ borderRadius: 10, padding: "0.2em 0.5em" }}
               />
             </div>
@@ -142,7 +152,7 @@ export default function Calendario() {
               className="z-10 w-9/12 scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-300 overflow-y-scroll scrollbar-thumb-rounded-full scrollbar-track-rounded-full px-2 h-4/5"
               style={{ maxHeight: "34vw" }}
             >
-              <CalendarComponent events={activities} />
+              <CalendarComponent events={activities} currentDate={currentDate} />
             </div>
           </div>
         </div>
