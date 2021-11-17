@@ -4,6 +4,8 @@ import Button from '../../componentes/Button';
 import './index.css';
 import Item from "../../componentes/Item";
 import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { completeActivity } from "../../../Puertos/feactures/activity/activitySlice";
 
 const searchImagesDefault = [
     {
@@ -81,6 +83,7 @@ const searchImagesDefault = [
 ];
 const maxTimeSeconds = 60;
 function Puzzle() {
+    const dispatch = useDispatch();
     let dragginItem = null;
     const history = useHistory();
     const [remainingSeconds, setremainingSeconds] = useState(maxTimeSeconds);
@@ -99,6 +102,7 @@ function Puzzle() {
 
     //draggable events
     const _endGame = () => {
+        dispatch(completeActivity('puzzle', null));
         history.push('/logro');
     }
     const _onDrop = (e, image) => {

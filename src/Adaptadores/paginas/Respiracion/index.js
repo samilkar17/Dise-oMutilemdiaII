@@ -6,13 +6,15 @@ import Item from "../../componentes/Item";
 import Player from "../../componentes/Player";
 import Perro from "../../componentes/Perro";
 import Button from "../../componentes/Button";
-import { completedGameActivity } from "../../../Puertos/feactures/activity/activitySlice";
+import { completeActivity, completedGameActivity } from "../../../Puertos/feactures/activity/activitySlice";
+import { useDispatch } from "react-redux";
 
 function Respiracion() {
   //limit of cycles (inhala and exhala), time of every breath
   const limitCycles = 6,
-    timeBreath = 3;
+    timeBreath = 4;
   const history = useHistory();
+  const dispatch = useDispatch();
   //counter for know current step
   const [repetition, setRepetition] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -26,7 +28,10 @@ function Respiracion() {
   //every x time is call this function, for this reason it verify if has to change current page
   const _nextStep = () => {
     //if true call function of ended
-    if (repetition + 1 >= limitCycles * 2) history.push("/logro");
+    if (repetition + 1 >= limitCycles * 2) {
+      dispatch(completeActivity('respiracion', null));
+      history.push("/logro");
+    }
     else setRepetition(repetition + 1);
   };
 

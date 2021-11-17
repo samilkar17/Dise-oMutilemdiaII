@@ -12,7 +12,7 @@ export default function Logro() {
       style={{ backgroundImage: `url('/assets/backgrounds/logro.png')` }}
     >
         
-      <h1 className="relative my-20 z-10 -bottom-3/4 left-1/4 text-white text-center font-body text-2xl w-1/2">
+      <h1 style={{ marginBottom: 50,}} className="relative my-20 z-10 -bottom-3/4 left-1/4 text-white text-center font-body text-2xl w-1/2">
         {text}
       </h1>
       <div
@@ -20,6 +20,7 @@ export default function Logro() {
         style={{ bottom: "0vh", left: 0 }}
       >
         <Button
+        bottom="6"
           text="Siguiente"
           onClick={() => history.push("/ordenarcuarto")}
         />

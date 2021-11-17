@@ -20,8 +20,8 @@ export default function ActividadAgendada() {
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
         db.collection("actividades")
-          .where("user", "==", user.user)
-          .onSnapshot((snapshot) => {
+        .where("user", "==", user.user)
+        .onSnapshot((snapshot) => {
             dispatch(
               setActivitySucces(
                 setActivities(

@@ -26,6 +26,7 @@ import Logro2 from "../../Adaptadores/paginas/Logro2";
 import Respiracion from "../../Adaptadores/paginas/Respiracion";
 import Puzzle from "../../Adaptadores/paginas/Puzzle";
 import Consejos from "../../Adaptadores/paginas/Consejos";
+import { readActivities } from "../../Puertos/feactures/activity/activitySlice";
 
 function Routes() {
   const dispatch = useDispatch();
@@ -43,8 +44,8 @@ function Routes() {
               displayName: userAuth.displayName,
               data: doc.data(),
             })
-
           )
+          dispatch(readActivities());
           setChecked(true);
         });
       } else {

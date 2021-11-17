@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { selectActivity, selectUserData } from "../../../Puertos/feactures/activity/activitySlice";
 import { selectUser } from "../../../Puertos/feactures/user/userSlice";
 import { necesaryPoints } from "../../utills/LevelUtils";
 import "./index.css";
 
 export default function Hud() {
-  const user = useSelector(selectUser);
-  const {activities, level,points} = user.data;
-  const dailyProgress = activities.length;
+  const userData = useSelector(selectUserData);
+  const activities = useSelector(selectActivity);
   return (
     <div className="absolute" style={{ top: 16, left: 16 }}>
       <div className="flex">
@@ -21,7 +21,7 @@ export default function Hud() {
                 {Array.from(Array(5).keys()).map((box, index) => (
                   <div
                     className={`boxProgress ${
-                      index < dailyProgress ? "active" : ""
+                      index < activities.length ? "active" : ""
                     }`}
                     key={index}
                   ></div>
@@ -38,8 +38,8 @@ export default function Hud() {
             <div className="relative">
               <div className="w-full text-white text">Nivel</div>
               <div className="hudBar hudProgress">
-                <div className="boxProgress" style={{width: `${points*100/necesaryPoints(level)}%`}}></div>
-                <div>{level}</div>
+                <div className="boxProgress" style={{width: `${userData.points*100/necesaryPoints(userData.level)}%`}}></div>
+                <div>{userData.level}</div>
               </div>
             </div>
           </div>
