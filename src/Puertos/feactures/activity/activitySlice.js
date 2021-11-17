@@ -23,15 +23,22 @@ export const activitySlice = createSlice({
       state.activity = action.payload;
     },
     completeActivitySuccess: (state, action) => {
-      state.activity = action.payload;
+      console.log('activitycompletedpayload', action.payload)
+      state.activity = action.payload.activity;
+      state.userData = action.payload.userData;
     },
-    resetActivitySuccess: (state) => {
-      state.activity = [];
+    resetActivitySuccess: (state, action) => {
+      state.activity = action.payload;
     },
     readActivitiesSuccess: (state, action) => {
       state.activity = action.payload.activity;
       state.userData = action.payload.userData;
     },
+    completeActivitySuccess: (state, action) => {
+      console.log('activitycompletedpayload', action.payload)
+      state.activity = action.payload.activity;
+      state.userData = action.payload.userData;
+    }
   },
 });
 
@@ -45,6 +52,7 @@ export const {
 } = activitySlice.actions;
 
 export const selectActivity = (state) => state.activity.activity;
+export const selectUserData = (state) => state.activity.userData;
 
 export default activitySlice.reducer;
 
@@ -59,36 +67,23 @@ export const addActivity = ({
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
-        const collection = db.collection(`actividades de ${user.user}`);
-        collection.get().then((snapshot) => {
-          const exist = snapshot.docs.find((doc) => {
-            if (
-              doc.data().activity == activity &&
-              doc.data().category == category
-            ) {
-              return true;
-            }
-            return false;
+        db.collection("actividades")
+          .doc()
+          .set({
+            activity: activity,
+            tStart: tStart,
+            tFinal: tFinal,
+            category: category,
+            color: color,
+            completed: false,
+            user: auth.currentUser.uid,
+          })
+          .then(() => {
+            resolve(toast("Nueva actividad programada", { icon: "👍🏾👍🏾" }));
+          })
+          .catch((e) => {
+            reject(toast(`${e}`, { icon: "❌❌" }));
           });
-          if (!exist) {
-            collection
-              .add({
-                activity: activity,
-                tStart: tStart,
-                tFinal: tFinal,
-                category: category,
-                color: color,
-                completed: false,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-              })
-              .then(() => {
-                resolve(toast("Nueva actividad programada", { icon: "👍🏾👍🏾" }));
-              })
-              .catch((e) => {
-                reject(toast(`${e}`, { icon: "❌❌" }));
-              });
-          }
-        });
       }
     });
   });
@@ -98,7 +93,7 @@ export const deleteActivity = ({ user, doc }) => {
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
-        db.collection(`actividades de ${user.user}`)
+        db.collection("actividades")
           .doc(doc)
           .delete()
           .then(() => {
@@ -116,7 +111,7 @@ export const completedActivity = ({ user, doc, completed }) => {
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
-        db.collection(`actividades de ${user.user}`)
+        db.collection("actividades")
           .doc(doc)
           .update({
             completed: !completed,
@@ -131,17 +126,22 @@ export const completedActivity = ({ user, doc, completed }) => {
           }).catch((e) => {
             reject(toast(`${e}`, { icon: "❌❌" }))
           })
+          .catch((e) => {
+            reject(toast(`${e}`, { icon: "❌❌" }));
+          });
       }
     });
   });
 };
 //lectura de actividades en el servidor con una fecha de ultima actualizacion y con actualización en realtime
-export const readActivities = () => {
+export const readActivities = () => (dispatch) => {
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
-        db.collection('users').doc(userAuth.uid).onSnapshot((doc) => {
-          readActivitiesSuccess({ activity: doc.data().activities ?? [], userData: doc.data() });
+        db.collection('user').doc(userAuth.uid).onSnapshot((doc) => {
+          let use = doc.data();
+          use.lastUpdate = use.lastUpdate ? use.lastUpdate.toDate() : null;
+          dispatch(readActivitiesSuccess({ activity: doc.data().activities ?? [], userData: use }));
         });
       }
     }
@@ -149,43 +149,56 @@ export const readActivities = () => {
   });
 }
 
-export const completeActivity = ({ name, docId }) => {
+export const completeActivity = (name, docId) => (dispatch, getState) => {
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((userAuth) => {
+      let activitiesCopy = [...getState().activity.activity];
       //primero vemos que pueda añadir actividades y la añadimos
       let today = new Date();
-      if (today.getDate() > this.userData.lastUpdate.getDate()) {
+      if (getState().activity.userData.lastUpdate == null || today.getDate() > getState().activity.userData.lastUpdate) {
         //hubo cambio de dia por ende se inserta sin problema
         db.collection('user').doc(userAuth.uid).update({
-          activities: [{ name: name, docId: docId }]
+          activities: [],
+          lastUpdate: firebase.firestore.Timestamp.fromDate(today)
         });
-      } else if (this.activity.length < 5 && !(docId == null && this.activity.filter(activity => activity.name == name).length < 2)) {
+        activitiesCopy = [`${name}_${docId}`];
+        db.collection('user').doc(userAuth.uid).update({
+          activities: firebase.firestore.FieldValue.arrayUnion(`${name}_${docId}`),
+        });
+      } else if (getState().activity.activity.length < 5 && !getState().activity.activity.some(activity => activity == `${name}_${docId}`)) {
         //verificamos que no este añadido ya
-        if (!this.activity.some((activity) => activity.name == name && docId == docId)) {
-          db.collection('user').doc(userAuth.uid).update({
-            activities: firebase.firestore.FieldValue.arrayUnion({ name: name, docId: docId })
-          })
-        }
+        activitiesCopy = activitiesCopy.push(`${name}_${docId}`);
+        db.collection('user').doc(userAuth.uid).update({
+          activities: firebase.firestore.FieldValue.arrayUnion(`${name}_${docId}`),
+          lastUpdate: firebase.firestore.Timestamp.fromDate(today)
+        })
       } else {
-        reject();
         return;
       }
 
       //ahora verificamos el nivel actual
-      let level = this.userData.level ?? 1;
-      let points = this.userData.points ?? 0;
-      points += 1;
-      let necesaryPoints = necesaryPoints(level);
-      if (points >= necesaryPoints) {
-        level += 1;
+      let level = getState().activity.userData.level ?? 1;
+      let points = getState().activity.userData.points ?? 0;
+      console.log('prevpponi', points)
+      points = points + 1;
+      console.log(points);
+      let necesaryPointsToUp = necesaryPoints(level);
+      if (points >= necesaryPointsToUp) {
+        level = level + 1;
         points = 0;
-        db.collection('user').doc(userAuth.uid).update({
-          activities: [({
-            level: level,
-            points: points
-          })]
-        });
       }
+      db.collection('user').doc(userAuth.uid).update({
+        level: level,
+        points: points
+      });
+
+      db.collection('user').doc(userAuth.uid).get().then((docCop) => {
+        let use = docCop.data();
+        use.lastUpdate = use.lastUpdate ? use.lastUpdate.toDate() : null;
+        dispatch(completeActivitySuccess({ activity: use.activities ?? [], userData: use }));
+      });
+
     });
+    resolve();
   });
 }
