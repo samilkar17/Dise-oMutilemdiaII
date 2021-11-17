@@ -41,7 +41,7 @@ const Actividad = forwardRef(
             <div className="flex flex-col mx-6 ml-auto">
               <p className="font-light text-sm text-gray-400 ">Duración</p>
               <p className=" font-semibold text-blue-500">
-                {tStart}-{tFinal}
+                {tStart.toDate().toLocaleString()}-{tFinal.toDate().toLocaleString()}
               </p>
             </div>
             <div className="flex items-end ml-auto space-x-1 p-2">
