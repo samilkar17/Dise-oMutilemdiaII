@@ -52,36 +52,23 @@ export const addActivity = ({
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
-        const collection = db.collection(`actividades de ${user.user}`);
-        collection.get().then((snapshot) => {
-          const exist = snapshot.docs.find((doc) => {
-            if (
-              doc.data().activity == activity &&
-              doc.data().category == category
-            ) {
-              return true;
-            }
-            return false;
+        db.collection("actividades")
+          .doc()
+          .set({
+            activity: activity,
+            tStart: tStart,
+            tFinal: tFinal,
+            category: category,
+            color: color,
+            completed: false,
+            user: auth.currentUser.uid,
+          })
+          .then(() => {
+            resolve(toast("Nueva actividad programada", { icon: "👍🏾👍🏾" }));
+          })
+          .catch((e) => {
+            reject(toast(`${e}`, { icon: "❌❌" }));
           });
-          if (!exist) {
-            collection
-              .add({
-                activity: activity,
-                tStart: tStart,
-                tFinal: tFinal,
-                category: category,
-                color: color,
-                completed: false,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-              })
-              .then(() => {
-                resolve(toast("Nueva actividad programada", { icon: "👍🏾👍🏾" }));
-              })
-              .catch((e) => {
-                reject(toast(`${e}`, { icon: "❌❌" }));
-              });
-          }
-        });
       }
     });
   });
@@ -91,7 +78,7 @@ export const deleteActivity = ({ user, doc }) => {
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
-        db.collection(`actividades de ${user.user}`)
+        db.collection("actividades")
           .doc(doc)
           .delete()
           .then(() => {
@@ -109,7 +96,7 @@ export const completedActivity = ({ user, doc, completed }) => {
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
-        db.collection(`actividades de ${user.user}`)
+        db.collection("actividades")
           .doc(doc)
           .update({
             completed: !completed,
@@ -120,10 +107,11 @@ export const completedActivity = ({ user, doc, completed }) => {
             } else {
               toast("Actividad completada", { icon: "✔✔" });
             }
-            resolve()
-          }).catch((e)=>{
-            reject(toast(`${e}`, { icon: "❌❌" }))
+            resolve();
           })
+          .catch((e) => {
+            reject(toast(`${e}`, { icon: "❌❌" }));
+          });
       }
     });
   });

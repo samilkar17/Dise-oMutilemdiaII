@@ -15,12 +15,12 @@ export default function ActividadAgendada() {
   const [activities, setActivities] = useState([]);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-
+  console.log(user.user);
   useEffect(() => {
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
-        db.collection(`actividades de ${user.user}`)
-          .orderBy("timestamp", "desc")
+        db.collection("actividades")
+          .where("user", "==", user.user)
           .onSnapshot((snapshot) => {
             dispatch(
               setActivitySucces(
@@ -66,7 +66,7 @@ export default function ActividadAgendada() {
                 tFinal,
                 tStart,
                 completed,
-                timestamp
+                
               }) => (
                 <Actividad
                   key={DocumentId}
@@ -77,7 +77,7 @@ export default function ActividadAgendada() {
                   tFinal={tFinal}
                   tStart={tStart}
                   completed={completed}
-                  date={timestamp}
+                  
                 />
               )
             )

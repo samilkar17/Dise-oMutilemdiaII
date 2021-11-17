@@ -14,7 +14,7 @@ import 'moment/locale/es';
 moment.locale("es");
 
 const Actividad = forwardRef(
-  ({ doc, title, category, color, completed, tFinal, tStart, date }, ref) => {
+  ({ doc, title, category, color, completed, tFinal, tStart, }, ref) => {
     const dispatch = useDispatch();
     const user = useSelector(selectUser);
    
@@ -31,9 +31,6 @@ const Actividad = forwardRef(
           ></div>
           <div className="flex justify-center items-center m-2 sm:m-0 p-1">
             <div className="flex-1 flex-col  leading-none space-y-2">
-              <p className="font-light  text-sm text-gray-400">
-                {moment(date.toDate()).calendar()}
-              </p>
               <p className="font-light  text-sm text-gray-400">
                 Categoria: {category}
               </p>

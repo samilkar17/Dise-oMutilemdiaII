@@ -11,6 +11,8 @@ import { Toaster } from "react-hot-toast";
 import Input from "../Input";
 import Select from "react-select";
 import Button from "../Button";
+import moment from "moment";
+moment.locale("es");
 
 export default function PlanificadorActividad() {
   const user = useSelector(selectUser);
@@ -20,7 +22,7 @@ export default function PlanificadorActividad() {
   const [tFinal, setTfinal] = useState("");
   const [category, setCategory] = useState(null);
   const [color, setColor] = useState("");
-
+  
   let colors = ["#FFBE0B", "#FB5607", "#FF006E", "#8338EC", "#3A86FF"];
   const options = [
     { value: "matematicas", label: "Matemáticas" },
@@ -29,7 +31,6 @@ export default function PlanificadorActividad() {
     { value: "inglés", label: "Inglés" },
     { value: "computación", label: "Computación" },
     { value: "meditación", label: "Meditación" },
-   
   ];
   const selectCategory = (category) => {
     setCategory(category.label);
@@ -81,7 +82,9 @@ export default function PlanificadorActividad() {
         </div>
         <div className="flex space-x-2 ">
           <div className="flex-col w-2/5">
-            <label className="block font-body text-blue-800 text-sm">Inicio</label>
+            <label className="block font-body text-blue-800 text-sm">
+              Inicio
+            </label>
             <Input
               required
               type="time"
@@ -93,7 +96,9 @@ export default function PlanificadorActividad() {
             />
           </div>
           <div className="flex-col w-2/5">
-            <label className="block font-body text-blue-800 text-sm">Final</label>
+            <label className="block font-body text-blue-800 text-sm">
+              Final
+            </label>
             <Input
               required
               type="time"
@@ -143,10 +148,9 @@ export default function PlanificadorActividad() {
         <div className="flex space-x-2">
           <Button type="submit" text="Agendar" color="btn-y" />
           <div className="w-full">
-
-          <Link to="/calendario" >
-            <Button text="Calendario" color="btn-b" variant="secondary"/>
-          </Link>
+            <Link to="/calendario">
+              <Button text="Calendario" color="btn-b" variant="secondary" />
+            </Link>
           </div>
         </div>
       </form>
@@ -162,9 +166,8 @@ export default function PlanificadorActividad() {
             className:
               "whitespace-nowrap font-body shadow-2xl border-2 border-blue-200 rounded-2xl text-blue-800 p-12",
             style: {
-             
               background: "#018DCB",
-              color: 'white'
+              color: "white",
             },
           }}
         />
