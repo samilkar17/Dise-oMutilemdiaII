@@ -1,11 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import {
   loginSuccess,
   logoutSuccess,
 } from "../../Puertos/feactures/user/userSlice";
-import { auth } from "../../Puertos/firebase/config";
+import {
+  setGender,
+} from "../../Puertos/feactures/gender/genderSlices";
+import { auth, db } from "../../Puertos/firebase/config";
 import IniciarSesion from "../../Adaptadores/paginas/IniciarSesion";
 import Planificador from "../../Adaptadores/paginas/Planificador";
 import Registrar from "../../Adaptadores/paginas/Registrar";
@@ -26,24 +29,34 @@ import Consejos from "../../Adaptadores/paginas/Consejos";
 
 function Routes() {
   const dispatch = useDispatch();
+  const [checked, setChecked] = useState(false);
   useEffect(() => {
-    
+
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
-        dispatch(
-          loginSuccess({
-            email: userAuth.email,
-            user: userAuth.uid,
-            displayName: userAuth.displayName,
-          })
-        );
-        console.log(userAuth)
+        db.collection("user").doc(userAuth.uid).get().then((doc) => {
+          dispatch(setGender(doc.data().gender));
+          dispatch(
+            loginSuccess({
+              email: userAuth.email,
+              user: userAuth.uid,
+              displayName: userAuth.displayName,
+              data: doc.data(),
+            })
+
+          )
+          setChecked(true);
+        });
       } else {
         dispatch(logoutSuccess());
+        setChecked(true);
       }
+      return unsubscribe;
     });
-    return unsubscribe;
   }, [dispatch]);
+
+  if (!checked) return <div>Cargando...</div>
+
   return (
     <Router>
       <Switch>

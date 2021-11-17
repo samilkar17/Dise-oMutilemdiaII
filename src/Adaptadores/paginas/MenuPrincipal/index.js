@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Hud from "../../componentes/Hud";
 import MenuButton from "../../componentes/MenuButton";
 import Button from "../../componentes/Button";
 import Perro from "../../componentes/Perro";
 import Player from "../../componentes/Player";
+import { useSelector } from "react-redux";
+import { selectUser, updateUserData } from "../../../Puertos/feactures/user/userSlice";
+import { useDispatch } from "react-redux";
 
 const texts = [
   "He escaneado tu habitación y como puedes ver; los hologramas te indicarán que objetos puedes usar",
@@ -17,8 +20,21 @@ const texts = [
 ];
 
 function MenuPrincipal() {
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+  //mirar si debe mostrar intro
+  useEffect(() => {
+    if (user.data.introCompleted) {
+      setPhase(texts.length);
+    }
+  }, []);
+
   const [phase, setPhase] = useState(0);
   const nextHandler = () => {
+    if(phase +1 >= texts.length) {
+      dispatch(updateUserData({ introCompleted: true }));
+    }
     setPhase(phase + 1);
   };
   return (

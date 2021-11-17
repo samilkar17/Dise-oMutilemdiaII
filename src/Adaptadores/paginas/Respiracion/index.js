@@ -6,6 +6,7 @@ import Item from "../../componentes/Item";
 import Player from "../../componentes/Player";
 import Perro from "../../componentes/Perro";
 import Button from "../../componentes/Button";
+import { completedGameActivity } from "../../../Puertos/feactures/activity/activitySlice";
 
 function Respiracion() {
   //limit of cycles (inhala and exhala), time of every breath
@@ -48,7 +49,7 @@ function Respiracion() {
 
   return (
     <div className="app">
-      <Item top="3"  right="5"  className="font-body  text-white text-3xl">
+      <Item top="3" right="5" className="font-body  text-white text-3xl">
         Respiración
       </Item>
       <Item top="3" left="5" onClick={_goBack}>

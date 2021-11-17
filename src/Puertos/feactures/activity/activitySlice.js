@@ -2,9 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import firebase from "@firebase/app-compat";
 import { auth, db } from "../../firebase/config";
 import toast from "react-hot-toast";
+import { necesaryPoints } from "../../../Adaptadores/utills/LevelUtils";
 
 const initialState = {
   activity: [],
+  userData: {},
 };
 
 export const activitySlice = createSlice({
@@ -26,6 +28,10 @@ export const activitySlice = createSlice({
     resetActivitySuccess: (state) => {
       state.activity = [];
     },
+    readActivitiesSuccess: (state, action) => {
+      state.activity = action.payload.activity;
+      state.userData = action.payload.userData;
+    },
   },
 });
 
@@ -35,6 +41,7 @@ export const {
   addActivitySuccess,
   removeActivitySuccess,
   resetActivitySuccess,
+  readActivitiesSuccess,
 } = activitySlice.actions;
 
 export const selectActivity = (state) => state.activity.activity;
@@ -121,10 +128,64 @@ export const completedActivity = ({ user, doc, completed }) => {
               toast("Actividad completada", { icon: "✔✔" });
             }
             resolve()
-          }).catch((e)=>{
+          }).catch((e) => {
             reject(toast(`${e}`, { icon: "❌❌" }))
           })
       }
     });
   });
 };
+//lectura de actividades en el servidor con una fecha de ultima actualizacion y con actualización en realtime
+export const readActivities = () => {
+  return new Promise((resolve, reject) => {
+    auth.onAuthStateChanged((userAuth) => {
+      if (userAuth) {
+        db.collection('users').doc(userAuth.uid).onSnapshot((doc) => {
+          readActivitiesSuccess({ activity: doc.data().activities ?? [], userData: doc.data() });
+        });
+      }
+    }
+    )
+  });
+}
+
+export const completeActivity = ({ name, docId }) => {
+  return new Promise((resolve, reject) => {
+    auth.onAuthStateChanged((userAuth) => {
+      //primero vemos que pueda añadir actividades y la añadimos
+      let today = new Date();
+      if (today.getDate() > this.userData.lastUpdate.getDate()) {
+        //hubo cambio de dia por ende se inserta sin problema
+        db.collection('user').doc(userAuth.uid).update({
+          activities: [{ name: name, docId: docId }]
+        });
+      } else if (this.activity.length < 5 && !(docId == null && this.activity.filter(activity => activity.name == name).length < 2)) {
+        //verificamos que no este añadido ya
+        if (!this.activity.some((activity) => activity.name == name && docId == docId)) {
+          db.collection('user').doc(userAuth.uid).update({
+            activities: firebase.firestore.FieldValue.arrayUnion({ name: name, docId: docId })
+          })
+        }
+      } else {
+        reject();
+        return;
+      }
+
+      //ahora verificamos el nivel actual
+      let level = this.userData.level ?? 1;
+      let points = this.userData.points ?? 0;
+      points += 1;
+      let necesaryPoints = necesaryPoints(level);
+      if (points >= necesaryPoints) {
+        level += 1;
+        points = 0;
+        db.collection('user').doc(userAuth.uid).update({
+          activities: [({
+            level: level,
+            points: points
+          })]
+        });
+      }
+    });
+  });
+}

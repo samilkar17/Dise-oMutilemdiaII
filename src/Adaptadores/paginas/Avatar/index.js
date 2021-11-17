@@ -4,12 +4,13 @@ import { XIcon } from "@heroicons/react/outline";
 import {
   logoutSuccess,
   selectUser,
+  updateUserData,
 } from "../../../Puertos/feactures/user/userSlice";
 import { useDispatch } from "react-redux";
 import { auth, db } from "../../../Puertos/firebase/config";
 import { useSelector } from "react-redux";
 import { resetActivitySuccess } from "../../../Puertos/feactures/activity/activitySlice";
-import { setGender } from "../../../Puertos/feactures/gender/genderSlices";
+import { setGender, selectgender } from "../../../Puertos/feactures/gender/genderSlices";
 import toast, { Toaster } from "react-hot-toast";
 import Perro from "../../componentes/Perro";
 import Button from "../../componentes/Button";
@@ -17,6 +18,7 @@ export default function Avatar() {
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector(selectUser);
+  const gender = useSelector(selectgender);
   const [genero, setGenero] = useState("");
   const [message, setMessage] = useState("");
 
@@ -26,10 +28,18 @@ export default function Avatar() {
     } else if (genero == "mujer") {
       setMessage("Ha seleccionado una mujer 👩🏻");
     }
-  });
+  }, [genero]);
+  useEffect(() => {
+    console.log(gender);
+    if (gender) {
+      history.push("/historia");
+    }
+  }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (genero) {
+      dispatch(setGender({ gender: genero }));
+      dispatch(updateUserData({ gender: genero }));
       history.push("/historia");
     } else {
       toast("Por favor selecciona un avatar", { icon: "😉😉" });
@@ -117,7 +127,7 @@ export default function Avatar() {
                 },
               }}
             />
-            <Button bottom="5" right="5" text="Listo" color="btn-y" onClick={()=>{dispatch(setGender(genero)); history.push('/historia')}} />
+            <Button bottom="5" right="5" text="Listo" color="btn-y" onClick={handleSubmit} />
           </div>
         </div>
       </form>
