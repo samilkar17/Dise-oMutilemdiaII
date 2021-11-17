@@ -6,7 +6,7 @@ import Item from "../../componentes/Item";
 import Player from "../../componentes/Player";
 import Perro from "../../componentes/Perro";
 import Button from "../../componentes/Button";
-import { completeActivity, completedGameActivity } from "../../../Puertos/feactures/activity/activitySlice";
+import { completeActivity } from "../../../Puertos/feactures/activity/activitySlice";
 import { useDispatch } from "react-redux";
 
 function Respiracion() {
