@@ -46,7 +46,7 @@ function Routes() {
               data: doc.data(),
             })
           )
-          dispatch(readActivities());
+          dispatch(readActivities(userAuth.uid));
           setChecked(true);
         });
       } else {

@@ -49,34 +49,41 @@ export const Register =
         auth
           .createUserWithEmailAndPassword(email, password)
           .then((userAuth) => {
+            try {
+              
             userAuth.user
-              .updateProfile({
+            .updateProfile({
+              displayName: name,
+              lastName: lastName,
+            })
+            .then(() => {
+              db.collection("user").doc(userAuth.user.uid).set({
+                email: userAuth.user.email,
+                uid: userAuth.user.uid,
                 displayName: name,
-                lastName: lastName,
-              })
-              .then(() => {
-                db.collection("user").doc(userAuth.user.uid).set({
+                lastName,
+                gender: null,
+                activities: [],
+                isIntroCompleted: false,
+                lastUpdate: null,
+                points: 0,
+                level: 1
+              });
+            })
+            .then(() => {
+              dispatch(
+                registerSuccess({
                   email: userAuth.user.email,
                   uid: userAuth.user.uid,
                   displayName: name,
                   lastName,
-                  gender: null,
-                  activities: [],
-                  points: 0,
-                  level: 1
-                }).then(e=>console.log('sett'));
-              })
-              .then(() => {
-                dispatch(
-                  registerSuccess({
-                    email: userAuth.user.email,
-                    uid: userAuth.user.uid,
-                    displayName: name,
-                    lastName,
-                  })
-                );
-                resolve();
-              });
+                })
+              );
+              resolve();
+            });
+            } catch (error) {
+              
+            }
           })
           .catch((error) => {
             console.log(error);
@@ -149,7 +156,6 @@ export const updateUserData =
         if (userAuth) {
           return new Promise((resolve, reject) => {
             db.collection("user").doc(userAuth.uid).update(data).then(() => {
-              console.log('updateUserData')
               dispatch(
                 updateUserDataSuccess(
                   data

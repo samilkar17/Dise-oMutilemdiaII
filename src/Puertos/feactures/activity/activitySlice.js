@@ -135,15 +135,18 @@ export const completedActivity = ({ user, doc, completed }) => (dispatch, getSta
   });
 };
 //lectura de actividades en el servidor con una fecha de ultima actualizacion y con actualización en realtime
-export const readActivities = () => (dispatch) => {
+export const readActivities = (userId) => (dispatch) => {
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
-        db.collection('user').doc(userAuth.uid).onSnapshot((doc) => {
-          console.log('lasss')
+        db.collection('user').doc(userId).onSnapshot((doc) => {
           let use = doc.data();
-          use.lastUpdate = use.lastUpdate ? use.lastUpdate.toDate() : null;
-          dispatch(readActivitiesSuccess({ activity: doc.data().activities ?? [], userData: use }));
+          if(use){
+            use.lastUpdate = use.lastUpdate ? use.lastUpdate.toDate() : null;
+            dispatch(readActivitiesSuccess({ activity: doc.data().activities ?? [], userData: use }));  
+          }else{
+            dispatch(readActivitiesSuccess({ activity: [], userData: null }));  
+          }
         });
       }
     }
@@ -155,7 +158,12 @@ export const completeActivity = (name, docId) => (dispatch, getState) => {
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((userAuth) => {
       console.log('getStateActivity',getState().activity)
-      let activitiesCopy = [...getState().activity.activity];
+      let activitiesCopy = [];
+      try {
+        activitiesCopy = [...getState().activity.activity]        
+      } catch (error) {
+        activitiesCopy = []
+      }
       //primero vemos que pueda añadir actividades y la añadimos
       let today = new Date();
       if (getState().activity.userData.lastUpdate == null || today.getDate() > getState().activity.userData.lastUpdate) {

@@ -64,15 +64,16 @@ export default function Calendario() {
           .where("user", "==", user.user)
           .where("tStart", ">=", firstDate)
           .onSnapshot((snapshot) => {
-            console.log('authsddsds')
             let activities = snapshot.docs.map((doc) => ({
               ...doc.data(),
               DocumentId: doc.id,
             }));
+            console.log('activities', activities);
             activities.forEach(activity => {
               activity.tStart = activity.tStart.toDate();
               activity.tFinal = activity.tFinal.toDate();
             });
+            setActivities(activities);
           });
       }
     });
