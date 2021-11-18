@@ -36,6 +36,7 @@ function Routes() {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
         db.collection("user").doc(userAuth.uid).get().then((doc) => {
+          console.log('unsuscribe routes');
           dispatch(setGender(doc.data().gender));
           dispatch(
             loginSuccess({

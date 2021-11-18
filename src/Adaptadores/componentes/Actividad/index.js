@@ -8,6 +8,7 @@ import {
   deleteActivity,
   completeActivitySuccess,
   removeActivitySuccess,
+  completeActivity,
 } from "../../../Puertos/feactures/activity/activitySlice";
 import moment from "moment";
 import 'moment/locale/es';
@@ -17,7 +18,7 @@ const Actividad = forwardRef(
   ({ doc, title, category, color, completed, tFinal, tStart, }, ref) => {
     const dispatch = useDispatch();
     const user = useSelector(selectUser);
-   
+
     return (
       <>
         <div
@@ -46,12 +47,9 @@ const Actividad = forwardRef(
             </div>
             <div className="flex items-end ml-auto space-x-1 p-2">
               <CheckIcon
-                onClick={() =>
-                  dispatch(
-                    completeActivitySuccess(
-                      completedActivity({ user, doc, completed })
-                    )
-                  )
+                onClick={() => {
+                  dispatch(completedActivity({ user, doc, completed }));
+                }
                 }
                 className={
                   completed

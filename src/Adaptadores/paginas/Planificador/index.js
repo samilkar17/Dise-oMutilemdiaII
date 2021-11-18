@@ -10,9 +10,9 @@ export default function Planificador() {
     <>
       <div className="relative flex justify-center  bg-blue-400 w-screen h-screen mt-12 ">
         <div className="absolute flex  w-4/5 p-8">
-          <Link to="/menu">
+          <a href="/menu">
             <ArrowLeftIcon className="w-12 h-12 cursor-pointer text-white rounded-full bg-red-500  p-1.5 hover:bg-red-700  transition ease-in duration-200" />
-          </Link>
+          </a>
           <h1 className=" ml-auto font-body  text-white text-3xl">Agenda</h1>
         </div>
         <div className="flex justify-center items-center">

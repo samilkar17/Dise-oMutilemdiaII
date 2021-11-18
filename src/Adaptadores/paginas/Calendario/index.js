@@ -64,6 +64,7 @@ export default function Calendario() {
           .where("user", "==", user.user)
           .where("tStart", ">=", firstDate)
           .onSnapshot((snapshot) => {
+            console.log('authsddsds')
             let activities = snapshot.docs.map((doc) => ({
               ...doc.data(),
               DocumentId: doc.id,
@@ -72,11 +73,6 @@ export default function Calendario() {
               activity.tStart = activity.tStart.toDate();
               activity.tFinal = activity.tFinal.toDate();
             });
-            dispatch(
-              setActivitySucces(
-                setActivities(activities)
-              )
-            );
           });
       }
     });

@@ -49,7 +49,6 @@ export const Register =
         auth
           .createUserWithEmailAndPassword(email, password)
           .then((userAuth) => {
-            alert(userAuth.user.uid);
             userAuth.user
               .updateProfile({
                 displayName: name,
@@ -65,7 +64,7 @@ export const Register =
                   activities: [],
                   points: 0,
                   level: 1
-                });
+                }).then(e=>console.log('sett'));
               })
               .then(() => {
                 dispatch(
@@ -96,6 +95,7 @@ export const login =
           .signInWithEmailAndPassword(email, password)
           .then((userAuth) => {
             db.collection("user").doc(userAuth.user.uid).get().then((doc) => {
+              console.log('user');
               if (userAuth.user.emailVerified) {
                 dispatch(
                   loginSuccess({
@@ -123,6 +123,7 @@ export const checkUser = () => (dispatch) => {
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
         db.collection("user").doc(userAuth.user.uid).get().then((doc) => {
+          console.log('userb');
           if (userAuth.user.emailVerified) {
             dispatch(
               loginSuccess({
@@ -148,8 +149,9 @@ export const updateUserData =
         if (userAuth) {
           return new Promise((resolve, reject) => {
             db.collection("user").doc(userAuth.uid).update(data).then(() => {
+              console.log('updateUserData')
               dispatch(
-                updateUserData(
+                updateUserDataSuccess(
                   data
                 )
               );

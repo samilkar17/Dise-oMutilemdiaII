@@ -22,15 +22,11 @@ export default function ActividadAgendada() {
         db.collection("actividades")
           .where("user", "==", user.user)
           .onSnapshot((snapshot) => {
-            dispatch(
-              setActivitySucces(
-                setActivities(
-                  snapshot.docs.map((doc) => ({
-                    ...doc.data(),
-                    DocumentId: doc.id,
-                  }))
-                )
-              )
+            setActivities(
+              snapshot.docs.map((doc) => ({
+                ...doc.data(),
+                DocumentId: doc.id,
+              }))
             );
           });
       }
@@ -38,7 +34,7 @@ export default function ActividadAgendada() {
     return () => {
       dispatch(resetActivitySuccess());
     };
-  }, [dispatch, user]);
+  }, []);
 
   return (
     <>
@@ -66,7 +62,7 @@ export default function ActividadAgendada() {
                 tFinal,
                 tStart,
                 completed,
-                
+
               }) => (
                 <Actividad
                   key={DocumentId}
@@ -77,7 +73,7 @@ export default function ActividadAgendada() {
                   tFinal={tFinal}
                   tStart={tStart}
                   completed={completed}
-                  
+
                 />
               )
             )

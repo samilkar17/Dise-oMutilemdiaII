@@ -35,7 +35,6 @@ export const activitySlice = createSlice({
       state.userData = action.payload.userData;
     },
     completeActivitySuccess: (state, action) => {
-      console.log('activitycompletedpayload', action.payload)
       state.activity = action.payload.activity;
       state.userData = action.payload.userData;
     }
@@ -79,6 +78,7 @@ export const addActivity = ({
             user: auth.currentUser.uid,
           })
           .then(() => {
+            console.log("Document successfully written!");
             resolve(toast("Nueva actividad programada", { icon: "👍🏾👍🏾" }));
           })
           .catch((e) => {
@@ -107,7 +107,7 @@ export const deleteActivity = ({ user, doc }) => {
   });
 };
 
-export const completedActivity = ({ user, doc, completed }) => {
+export const completedActivity = ({ user, doc, completed }) => (dispatch, getState) =>{
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
@@ -122,6 +122,7 @@ export const completedActivity = ({ user, doc, completed }) => {
             } else {
               toast("Actividad completada", { icon: "✔✔" });
             }
+            dispatch(completeActivity('activity', doc));
             resolve()
           }).catch((e) => {
             reject(toast(`${e}`, { icon: "❌❌" }))
@@ -139,6 +140,7 @@ export const readActivities = () => (dispatch) => {
     auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
         db.collection('user').doc(userAuth.uid).onSnapshot((doc) => {
+          console.log('lasss')
           let use = doc.data();
           use.lastUpdate = use.lastUpdate ? use.lastUpdate.toDate() : null;
           dispatch(readActivitiesSuccess({ activity: doc.data().activities ?? [], userData: use }));
@@ -152,6 +154,7 @@ export const readActivities = () => (dispatch) => {
 export const completeActivity = (name, docId) => (dispatch, getState) => {
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((userAuth) => {
+      console.log('getStateActivity',getState().activity)
       let activitiesCopy = [...getState().activity.activity];
       //primero vemos que pueda añadir actividades y la añadimos
       let today = new Date();
@@ -160,18 +163,18 @@ export const completeActivity = (name, docId) => (dispatch, getState) => {
         db.collection('user').doc(userAuth.uid).update({
           activities: [],
           lastUpdate: firebase.firestore.Timestamp.fromDate(today)
-        });
+        }).then(() => {console.log('updated')});
         activitiesCopy = [`${name}_${docId}`];
         db.collection('user').doc(userAuth.uid).update({
           activities: firebase.firestore.FieldValue.arrayUnion(`${name}_${docId}`),
-        });
+        }).then(() => {console.log('updatedb')});
       } else if (getState().activity.activity.length < 5 && !getState().activity.activity.some(activity => activity == `${name}_${docId}`)) {
         //verificamos que no este añadido ya
         activitiesCopy = activitiesCopy.push(`${name}_${docId}`);
         db.collection('user').doc(userAuth.uid).update({
           activities: firebase.firestore.FieldValue.arrayUnion(`${name}_${docId}`),
           lastUpdate: firebase.firestore.Timestamp.fromDate(today)
-        })
+        }).then(() => {console.log('updatedds')});
       } else {
         return;
       }
@@ -193,10 +196,11 @@ export const completeActivity = (name, docId) => (dispatch, getState) => {
       });
 
       db.collection('user').doc(userAuth.uid).get().then((docCop) => {
+        console.log('activity slince routes');
         let use = docCop.data();
         use.lastUpdate = use.lastUpdate ? use.lastUpdate.toDate() : null;
         dispatch(completeActivitySuccess({ activity: use.activities ?? [], userData: use }));
-      });
+      }).then(() => {console.log('updssssated')});
 
     });
     resolve();
