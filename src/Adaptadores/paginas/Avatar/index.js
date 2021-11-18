@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { XIcon } from "@heroicons/react/outline";
 import {
   logoutSuccess,
@@ -21,6 +21,7 @@ export default function Avatar() {
   const gender = useSelector(selectgender);
   const [genero, setGenero] = useState("");
   const [message, setMessage] = useState("");
+  const {edit} = useParams();
 
   useEffect(() => {
     if (genero == "hombre") {
@@ -30,15 +31,14 @@ export default function Avatar() {
     }
   }, [genero]);
   useEffect(() => {
-    console.log(gender);
-    if (gender) {
+    if (gender && !edit) {
       history.push("/historia");
     }
   }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (genero) {
-      dispatch(setGender({ gender: genero }));
+      dispatch(setGender(genero));
       dispatch(updateUserData({ gender: genero }));
       history.push("/historia");
     } else {

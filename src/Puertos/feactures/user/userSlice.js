@@ -49,6 +49,7 @@ export const Register =
         auth
           .createUserWithEmailAndPassword(email, password)
           .then((userAuth) => {
+            alert(userAuth.user.uid);
             userAuth.user
               .updateProfile({
                 displayName: name,
@@ -60,6 +61,10 @@ export const Register =
                   uid: userAuth.user.uid,
                   displayName: name,
                   lastName,
+                  gender: null,
+                  activities: [],
+                  points: 0,
+                  level: 1
                 });
               })
               .then(() => {

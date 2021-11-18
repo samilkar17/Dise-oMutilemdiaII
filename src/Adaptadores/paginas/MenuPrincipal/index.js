@@ -61,7 +61,7 @@ function MenuPrincipal() {
         icon="/assets/icons/avatar.svg"
         color="#71FFFF"
         outstanding={phase == 3}
-        newUrl={phase == 3 ? null : "/avatar"}
+        newUrl={phase == 3 ? null : "/avatar/1"}
       />
       <MenuButton
         left={34}

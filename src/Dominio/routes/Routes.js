@@ -64,7 +64,7 @@ function Routes() {
         <PublicRoute exact path="/" component={IniciarSesion} />
         <PublicRoute exact path="/registrar" component={Registrar} />
         <Route exact path="/puzzle" component={Puzzle} />
-        <PrivateRoute exact path="/avatar" component={Avatar} />
+        <PrivateRoute exact path="/avatar/:edit?" component={Avatar} />
         <PrivateRoute exact path="/respiracion" component={Respiracion} />
         <PrivateRoute exact path="/historia" component={Historia} />
         <PrivateRoute exact path="/menu" component={Menuprincipal} />
