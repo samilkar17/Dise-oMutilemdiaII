@@ -21,7 +21,7 @@ export default function Hud() {
                 {Array.from(Array(5).keys()).map((box, index) => (
                   <div
                     className={`boxProgress ${
-                      index < activities.length ? "active" : ""
+                      index < (activities ? activities.length : 0) ? "active" : ""
                     }`}
                     key={index}
                   ></div>
