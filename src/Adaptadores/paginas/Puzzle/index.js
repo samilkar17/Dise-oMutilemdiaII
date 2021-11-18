@@ -19,7 +19,7 @@ const searchImagesDefault = [
     {
         id: 'compass',
         displayName: 'Brújula',
-        found: false,
+        found: true,
         url: '/assets/puzzle/brujula.png',
         position: { left: 17, top: 40 },
         sizes: { width: '3vw' }
@@ -27,7 +27,7 @@ const searchImagesDefault = [
     {
         id: 'map',
         displayName: 'Mapa',
-        found: false,
+        found: true,
         url: '/assets/puzzle/mapa.png',
         position: { left: 86, top: 44 },
         sizes: { width: '6vw' }
@@ -35,7 +35,7 @@ const searchImagesDefault = [
     {
         id: 'bag',
         displayName: 'Morral',
-        found: false,
+        found: true,
         url: '/assets/puzzle/mochila.png',
         position: { left: 6, top: 32 },
         sizes: { width: '8vw' }
@@ -43,7 +43,7 @@ const searchImagesDefault = [
     {
         id: 'cauldron',
         displayName: 'Caldero',
-        found: false,
+        found: true,
         url:'/assets/puzzle/caldero.png',
         position: { left: 53.5, top: 27 },
         sizes: { width: '15vw' }
@@ -51,7 +51,7 @@ const searchImagesDefault = [
     {
         id: 'guitar',
         displayName: 'Guitarra',
-        found: false,
+        found: true,
         url: '/assets/puzzle/guitarra.png',
         position: { left: 70, top: 31 },
         sizes: { width: '10vw' }
@@ -59,7 +59,7 @@ const searchImagesDefault = [
     {
         id: 'fire',
         displayName: 'Leña',
-        found: false,
+        found: true,
         url: '/assets/puzzle/leña.png',
         position: { left: 25, top: 34 },
         sizes: { width: '9vw' }
@@ -67,7 +67,7 @@ const searchImagesDefault = [
     {
         id: 'chair',
         displayName: 'Silla',
-        found: false,
+        found: true,
         url: '/assets/puzzle/silla.png',
         position: { left: 37, top: 29.5 },
         sizes: { width: '16vw' }
@@ -75,7 +75,7 @@ const searchImagesDefault = [
     {
         id: 'thermos',
         displayName: 'Termo',
-        found: false,
+        found: true,
         url: '/assets/puzzle/termo.png',
         position: { left: 33, top: 42 },
         sizes: { width: '4vw' }

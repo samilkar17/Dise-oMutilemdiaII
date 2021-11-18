@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import firebase from "@firebase/app-compat";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../../Puertos/feactures/user/userSlice";
+import Datetime from 'react-datetime';
 import { useDispatch } from "react-redux";
 import {
   addActivity,
@@ -12,6 +14,7 @@ import Input from "../Input";
 import Select from "react-select";
 import Button from "../Button";
 import moment from "moment";
+import "react-datetime/css/react-datetime.css";
 moment.locale("es");
 
 export default function PlanificadorActividad() {
@@ -22,7 +25,7 @@ export default function PlanificadorActividad() {
   const [tFinal, setTfinal] = useState("");
   const [category, setCategory] = useState(null);
   const [color, setColor] = useState("");
-  
+
   let colors = ["#FFBE0B", "#FB5607", "#FF006E", "#8338EC", "#3A86FF"];
   const options = [
     { value: "matematicas", label: "Matemáticas" },
@@ -36,23 +39,39 @@ export default function PlanificadorActividad() {
     setCategory(category.label);
   };
 
+  const getEndDate = (initDate) => {
+    let startDate = initDate.toDate();
+    let copyDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), startDate.getHours() + 2);
+    console.log(copyDate);
+    return moment(copyDate);
+    
+  }
+
   const resetForm = () => {
     setActivity("");
-    setTStart("");
-    setTfinal("");
+    setTStart(null);
+    setTfinal(null);
     setCategory(null);
     setColor("");
   };
+
+  const handleChangeStart = (date) => {
+    setTStart(date);
+    setTfinal(getEndDate(date));
+  }
   const submitActivity = (e) => {
     e.preventDefault();
+
+    let tStartTp = firebase.firestore.Timestamp.fromDate(tStart.toDate());
+    let tFinalTp = firebase.firestore.Timestamp.fromDate(tFinal.toDate());
 
     dispatch(
       addActivitySuccess(
         addActivity({
           user,
           activity,
-          tStart,
-          tFinal,
+          tStart: tStartTp,
+          tFinal: tFinalTp,
           category,
           color,
         })
@@ -66,7 +85,7 @@ export default function PlanificadorActividad() {
       <h1 className="text-blue-800 font-body text-xl text-center">
         Programa tus actividades
       </h1>
-      <form className="space-y-6" onSubmit={submitActivity}>
+      <form className="space-y-3" onSubmit={submitActivity}>
         <div className="flex flex-col space-y-2">
           <label className="block font-body text-blue-800 text-sm">
             Nueva Actividad
@@ -80,33 +99,17 @@ export default function PlanificadorActividad() {
             handleChange={(e) => setActivity(e.target.value)}
           />
         </div>
-        <div className="flex space-x-2 ">
-          <div className="flex-col w-2/5">
-            <label className="block font-body text-blue-800 text-sm">
-              Inicio
-            </label>
-            <Input
-              required
-              type="time"
-              name="tStart"
-              value={tStart}
-              handleChange={(e) => {
-                setTStart(e.target.value);
-              }}
-            />
-          </div>
-          <div className="flex-col w-2/5">
-            <label className="block font-body text-blue-800 text-sm">
-              Final
-            </label>
-            <Input
-              required
-              type="time"
-              name="tFinal"
-              value={tFinal}
-              handleChange={(e) => setTfinal(e.target.value)}
-            />
-          </div>
+        <div className="flex flex-col space-y-2">
+          <label className="block font-body text-blue-800 text-sm">
+            Inicio
+          </label>
+          <Datetime onChange={(e) => handleChangeStart(e)} inputProps={{placeholder:"Fecha de inicio", required: true}}/>
+        </div>
+        <div className="flex flex-col space-y-2">
+          <label className="block font-body text-blue-800 text-sm">
+            Final
+          </label>
+          <Datetime value={tFinal} onChange={(e) => setTfinal(e)} inputProps={{placeholder:"Fecha de cierre", required: true}} isValidDate={(current, selected) => tStart && current >= tStart && current <= getEndDate(tStart)}/>
         </div>
         <div className="flex flex-col space-y-2">
           <label className="block font-body text-blue-800 text-sm">

@@ -47,3 +47,8 @@
   background-color: white;
   padding: 1em;
 }
+
+.form-control{
+  border: solid thin #cecece;
+  border-radius: 20px;
+}

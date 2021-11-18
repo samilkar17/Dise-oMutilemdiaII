@@ -64,11 +64,6 @@ export default function Calendario() {
           .where("user", "==", user.user)
           .where("tStart", ">=", firstDate)
           .onSnapshot((snapshot) => {
-            console.log('snapshot');
-            console.log(snapshot.docs.map((doc) => ({
-              ...doc.data(),
-              DocumentId: doc.id,
-            })));
             let activities = snapshot.docs.map((doc) => ({
               ...doc.data(),
               DocumentId: doc.id,
